@@ -1,0 +1,27 @@
+---
+prometheus_exporter_version: 0.15.1
+prometheus_exporter_name: "node_exporter"
+prometheus_website_name: github.com
+prometheus_github_username: prometheus
+prometheus_exporter_nead_sysconfig: false
+prometheus_exporter_release_name: "{{prometheus_exporter_name}}-{{ prometheus_exporter_version }}.linux-amd64"
+url: "https://{{prometheus_website_name}}/{{prometheus_github_username}}/{{prometheus_exporter_name}}/releases/download/v{{ prometheus_exporter_version }}/{{ prometheus_exporter_release_name }}.tar.gz"
+
+# https://github.com/prometheus/node_exporter#enabled-by-default
+
+prometheus_exporter_enabled_collectors:
+prometheus_exporter_disable_collectors:
+prometheus_enable_exporter_config_flags: false
+# for enable prometheus_exporter_config_flags set prometheus_enable_exporter_config_flags to true
+prometheus_exporter_config_flags:
+  'web.listen-address': '0.0.0.0:9100'
+  'log.level': 'info'
+prometheus_install_path: "/opt/prometheus"
+generic_exporter_compressed_binary_path: "{{prometheus_install_path}}/exporter_gz"
+exporter_compressed_binary_path: "{{generic_exporter_compressed_binary_path}}/{{prometheus_exporter_name}}"
+generic_exporter_binary_path: "{{prometheus_install_path}}/exporter"
+exporter_path: "{{generic_exporter_binary_path}}/{{prometheus_exporter_name}}"
+prometheus_exporters_common_root_dir: "{{ prometheus_install_path }}/exporter"
+prometheus_exporters_common_user: prometheus
+prometheus_exporters_common_group: prometheus
+prometheus_config_path: /etc/prometheus

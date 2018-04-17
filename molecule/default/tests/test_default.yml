@@ -1,0 +1,21 @@
+---
+service:
+  prometheus-node_exporter.service:
+    enabled: true
+    running: true
+user:
+  prometheus:
+    exists: true
+    uid: 1000
+    gid: 1000
+    groups:
+      - prometheus
+    home: /home/prometheus
+    shell: /sbin/nologin
+http:
+  http://localhost:9100/metrics:
+    status: 200
+    allow-insecure: false
+    no-follow-redirects: false
+    timeout: 5000
+    body: []

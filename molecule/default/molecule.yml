@@ -1,0 +1,30 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+lint:
+  name: yamllint
+platforms:
+  - name: instance-1
+    groups:
+      - node_exporter
+  - name: instance-2
+    groups:
+      - haproxy_exporter
+  - name: instance-3
+    groups:
+      - blackbox_exporter
+provisioner:
+  name: ansible
+  options:
+    diff: True
+    v: True
+  playbooks:
+    create: create.yml
+    prepare: prepare.yml
+    destroy: destroy.yml
+scenario:
+  name: default
+verifier:
+  name: goss

@@ -1,0 +1,24 @@
+[Unit]
+Description=Prometheus {{prometheus_exporter_name}}
+After=network.target
+
+[Service]
+EnvironmentFile=/etc/sysconfig/{{prometheus_exporter_name}}
+Type=simple
+User={{ prometheus_exporters_common_user }}
+Group={{ prometheus_exporters_common_group }}
+
+{% if prometheus_enable_exporter_config_flags %}
+ExecStart={{ prometheus_exporters_common_root_dir }}/{{prometheus_exporter_name}}_current/{{prometheus_exporter_name}} $COLLECTOR_ENABLE $COLLECTOR_DISABLE {% for flag, flag_value in prometheus_exporter_config_flags.items() %}--{{ flag }}={{ flag_value }} {% endfor %}
+{% else %}
+ExecStart={{ prometheus_exporters_common_root_dir }}/{{prometheus_exporter_name}}_current/{{prometheus_exporter_name}}
+{% endif %}
+
+
+
+
+SyslogIdentifier=prometheus_{{prometheus_exporter_name}}
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

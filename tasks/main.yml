@@ -1,0 +1,132 @@
+---
+- name: create Prometheus group
+  group: name={{ prometheus_exporters_common_group }}  state=present
+
+- name: create Prometheus user
+  user:
+    name: "{{ prometheus_exporters_common_user }}"
+    group: "{{ prometheus_exporters_common_group }}"
+    createhome: no
+    shell: /sbin/nologin
+    comment: "Prometheus User"
+    state: present
+
+- name: mkdir for general cases
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ prometheus_exporters_common_user }}"
+    group: "{{ prometheus_exporters_common_group }}"
+    mode: "u=rwx,g=rx,o="
+  with_items:
+    - "{{ prometheus_config_path }}"
+
+- name: create Prometheus root dir in "{{ prometheus_install_path }}"
+  file:
+    path: "{{ prometheus_install_path }}"
+    state: directory
+    mode: 0755
+
+- name: create "{{prometheus_exporter_name}}" config dir in "/etc/sysconfig"
+  file:
+    path: /etc/sysconfig
+    state: directory
+    mode: 0755
+
+- name: create Prometheus Generic exporter tar.gz archive in "{{ generic_exporter_compressed_binary_path }}"
+  file:
+    path: "{{ generic_exporter_compressed_binary_path }}"
+    state: directory
+    mode: 0755
+
+- name: create "{{ prometheus_exporter_name }}" tar.gz archive in "{{ exporter_compressed_binary_path }}"
+  file:
+    path: "{{ prometheus_exporter_name }}"
+    state: directory
+    mode: 0755
+
+- name: create general exporter binary file dir "{{ generic_exporter_binary_path }}"
+  file:
+    path: "{{ generic_exporter_binary_path }}"
+    state: directory
+    mode: 0755
+
+- name: create "{{ prometheus_exporter_name }}" binary file "{{ exporter_path }}"
+  file:
+    path: "{{ exporter_path }}"
+    state: directory
+    mode: 0755
+
+- name: create Prometheus group
+  group: name={{ prometheus_exporters_common_group }}  state=present
+
+- name: create Prometheus Workign user and group
+  user:
+    name: "{{ prometheus_exporters_common_user }}"
+    group: "{{ prometheus_exporters_common_group }}"
+    createhome: no
+    shell: /sbin/nologin
+    comment: "Prometheus User"
+    state: present
+
+- name: create gz directory "{{ generic_exporter_binary_path }}"
+  file:
+    path: "{{ exporter_compressed_binary_path }}"
+    state: directory
+    mode: 0755
+
+- name: download prometheus {{prometheus_exporter_name}} exporter binary
+  get_url:
+    url: "{{ url }}"
+    dest: "{{ exporter_compressed_binary_path }}/{{ prometheus_exporter_release_name }}.tar.gz"
+    validate_certs: False
+
+- name: unarchive binary tarball
+  unarchive:
+    copy: no
+    src: "{{ exporter_compressed_binary_path }}/{{ prometheus_exporter_release_name }}.tar.gz"
+    dest: "{{ exporter_path }}"
+    creates: "{{ exporter_path }}/{{ prometheus_exporter_release_name }}"
+
+- name: update group and owner for files
+  file:
+    path: "{{ exporter_path }}"
+    state: directory
+    recurse: yes
+    owner: "{{ prometheus_exporters_common_user}}"
+    group: "{{ prometheus_exporters_common_group }}"
+
+- name: create symlink to the current release
+  file:
+    src: "{{ exporter_path }}/{{ prometheus_exporter_release_name }}"
+    path: "{{ prometheus_exporters_common_root_dir }}/{{prometheus_exporter_name}}_current"
+    state: link
+  notify:
+    - restart {{prometheus_exporter_name}}
+
+
+- name: create "{{ prometheus_exporter_name }}" sysconfig
+  template:
+    src: etc/sysconfig/default_template.j2
+    dest: /etc/sysconfig/{{ prometheus_exporter_name }}
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart {{prometheus_exporter_name}}
+
+- name: create systemd service unit
+  template:
+    src: etc/systemd/system/prometheus-generic-exporter.service.j2
+    dest: /etc/systemd/system/prometheus-{{prometheus_exporter_name}}.service
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart {{prometheus_exporter_name}}
+
+- name: ensure prometheus {{ prometheus_exporter_name }} enabled and started
+  service:
+    name: prometheus-{{prometheus_exporter_name}}
+    state: started
+    enabled: yes

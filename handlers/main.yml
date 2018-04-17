@@ -1,0 +1,14 @@
+---
+
+
+- name: restart {{prometheus_exporter_name}}
+  service:
+    name: "prometheus-{{prometheus_exporter_name}}"
+    daemon_reload: yes
+    state: restarted
+
+- name: start {{prometheus_exporter_name}}
+  service:
+    name: "prometheus-{{prometheus_exporter_name}}"
+    daemon_reload: yes
+    state: started

@@ -1,0 +1,16 @@
+---
+galaxy_info:
+  author: Attilio Greco
+  description: Playbook for prometheus-exporter.
+  company: Enter srl
+  license: MIT
+  min_ansible_version: 2.4
+  platforms:
+    - name: Ubuntu
+      versions:
+        - xenial
+  galaxy_tags:
+    - molecule
+
+
+dependencies: []
