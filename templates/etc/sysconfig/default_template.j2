@@ -9,3 +9,7 @@ DISABLE="{% for item in prometheus_exporter_disable_collectors -%}  --no-collect
 {% else %}
 DISABLE="  "
 {% endif %}
+
+{% if prometheus_environment_variables %}
+{% for env_name, env_value in prometheus_environment_variables.items() %}{{ env_name }}={{ env_value }} {% endfor %}
+{% endif %}
