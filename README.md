@@ -40,7 +40,28 @@ Destroy the Docker container with the command `molecule destroy`.
 
 To run all the steps with just one command, run `molecule test`. 
 
-In order to run the role targeting a VM, use the playbook_deploy.yml file for example with the following command: `ansible-playbook ansible-prometheus-exporter/molecule/default/playbook_deploy.yml -i VM_IP_OR_FQDN, -u ubuntu --private-key private.pem`.  
+In order to run the role targeting a VM, use the playbook_deploy.yml file for example with the following command: `ansible-playbook ansible-prometheus-exporter/molecule/default/playbook_deploy.yml -i VM_IP_OR_FQDN, -u ubuntu --private-key private.pem`.
+
+# More example
+
+## Deploy haproxy_expoter version 0.9.0
+
+
+### Playbook
+
+```
+    - role: entercloudsuite.prometheus-exporter
+      prometheus_exporter_version: 0.9.0
+      prometheus_exporter_name: "haproxy_exporter"
+      prometheus_enable_exporter_config_flags: true
+      prometheus_exporter_config_flags:
+       'haproxy.scrape-uri': 'unix:/run/haproxy/admin.sock'
+```
+
+### HAproxy configuration 
+
+stats socket /run/haproxy/admin.sock mode 666 level admin
+
 
 ## License
 
