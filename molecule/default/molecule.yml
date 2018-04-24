@@ -6,15 +6,18 @@ driver:
 lint:
   name: yamllint
 platforms:
-  - name: instance-1
+  - name: node_exporter
     groups:
       - node_exporter
-  - name: instance-2
+  - name: haproxy_exporter
     groups:
       - haproxy_exporter
-  - name: instance-3
+  - name: blackbox_exporter
     groups:
       - blackbox_exporter
+  - name: mysql_exporter
+    groups:
+      - mysql_exporter
 provisioner:
   name: ansible
   options:
