@@ -18,3 +18,12 @@
     - role: ansible-prometheus-exporter
       prometheus_exporter_name: blackbox_exporter
       prometheus_exporter_version: 0.12.0
+
+- name: install mysqld_exporter on mysqld_exporter group
+  hosts: mysql_exporter
+  roles:
+    - role: ansible-prometheus-exporter
+      prometheus_exporter_name: mysqld_exporter
+      prometheus_exporter_version: 0.10.0
+      prometheus_environment_variables:
+        'DATA_SOURCE_NAME': 'monitoring_user:monitoring_v3ry_s3cretp4ss0rd@(hostname:3306)/'
