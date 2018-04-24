@@ -16,6 +16,9 @@ prometheus_enable_exporter_config_flags: false
 prometheus_exporter_config_flags:
   'web.listen-address': '0.0.0.0:9100'
   'log.level': 'info'
+# let it void if not used
+prometheus_environment_variables:
+
 prometheus_install_path: "/opt/prometheus"
 generic_exporter_compressed_binary_path: "{{prometheus_install_path}}/exporter_gz"
 exporter_compressed_binary_path: "{{generic_exporter_compressed_binary_path}}/{{prometheus_exporter_name}}"
