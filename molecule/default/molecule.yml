@@ -18,6 +18,9 @@ platforms:
   - name: mysql_exporter
     groups:
       - mysql_exporter
+  - name: postgres_exporter
+    groups:
+      - postgres_exporter
 provisioner:
   name: ansible
   options:

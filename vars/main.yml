@@ -1,2 +1,4 @@
 ---
-# vars
+
+prometheus_exporter_release_name: "{{prometheus_exporter_name}}-{{ prometheus_exporter_version }}.linux-amd64"
+url: "https://{{prometheus_website_name}}/{{prometheus_github_username}}/{{prometheus_exporter_name}}/releases/download/v{{ prometheus_exporter_version }}/{{ prometheus_exporter_release_name }}.tar.gz"

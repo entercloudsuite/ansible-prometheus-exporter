@@ -2,7 +2,9 @@
 - name: install node_exporter on all the instances
   hosts: all
   roles:
-    - {role: ansible-prometheus-exporter}
+    - role: ansible-prometheus-exporter
+      prometheus_exporter_name: node_exporter
+
 - name: install haproxy_exporter on haproxy
   hosts: haproxy_exporter
   roles:
@@ -27,3 +29,10 @@
       prometheus_exporter_version: 0.10.0
       prometheus_environment_variables:
         'DATA_SOURCE_NAME': 'monitoring_user:monitoring_v3ry_s3cretp4ss0rd@(hostname:3306)/'
+
+- name: install postgres_exporter on postgres_exporter group
+  hosts: postgres_exporter
+  roles:
+    - role: ansible-prometheus-exporter
+      prometheus_exporter_name: postgres_exporter
+      url: https://github.com/wrouesnel/postgres_exporter/releases/download/v0.4.6/postgres_exporter_v0.4.6_linux-amd64.tar.gz

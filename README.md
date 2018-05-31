@@ -70,7 +70,7 @@ stats socket /run/haproxy/admin.sock mode 666 level admin
 ```
   hosts: mysql_exporter
   roles:
-    - role: ansible-prometheus-exporter
+    - role: entercloudsuite.prometheus-exporter
       prometheus_exporter_name: mysqld_exporter
       prometheus_exporter_version: 0.10.0
       prometheus_environment_variables:
@@ -99,6 +99,17 @@ GRANT PROCESS, REPLICATION CLIENT, SELECT ON *.* TO 'exporter'@'localhost';
       priv: '*.*:PROCESS,REPLICATION CLIENT,SELECT'
       state: present
 
+```
+
+## postgres configuration (WIP)
+
+```
+    - name: install postgres_exporter on postgres_exporter group
+      hosts: postgres_exporter
+      roles:
+        - role: entercloudsuite.prometheus-exporter
+          prometheus_exporter_name: postgres_exporter
+          url: https://github.com/wrouesnel/postgres_exporter/releases/download/v0.4.6/postgres_exporter_v0.4.6_linux-amd64.tar.gz
 ```
 
 ## License
