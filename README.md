@@ -101,7 +101,7 @@ GRANT PROCESS, REPLICATION CLIENT, SELECT ON *.* TO 'exporter'@'localhost';
 
 ```
 
-## postgres configuration (WIP)
+### postgres configuration (WIP)
 
 ```
     - name: install postgres_exporter on postgres_exporter group
