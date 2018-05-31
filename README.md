@@ -110,6 +110,8 @@ GRANT PROCESS, REPLICATION CLIENT, SELECT ON *.* TO 'exporter'@'localhost';
         - role: entercloudsuite.prometheus-exporter
           prometheus_exporter_name: postgres_exporter
           url: https://github.com/wrouesnel/postgres_exporter/releases/download/v0.4.6/postgres_exporter_v0.4.6_linux-amd64.tar.gz
+          prometheus_environment_variables:
+            DATA_SOURCE_NAME="postgresql://postgres:password@localhost:5432/?sslmode=disable"
 ```
 
 ## License
