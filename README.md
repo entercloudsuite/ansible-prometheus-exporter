@@ -43,6 +43,31 @@ To run all the steps with just one command, run `molecule test`.
 In order to run the role targeting a VM, use the playbook_deploy.yml file for example with the following command: `ansible-playbook ansible-prometheus-exporter/molecule/default/playbook_deploy.yml -i VM_IP_OR_FQDN, -u ubuntu --private-key private.pem`.
 
 # More example
+## Deploy [node_exporter](https://github.com/prometheus/node_exporter)
+
+### Playbook
+
+simple
+```yaml
+- name: install node_exporter on all the instances
+  hosts: all
+  roles:
+    - role: ansible-prometheus-exporter
+      prometheus_exporter_name: node_exporter
+```
+more options
+```yaml
+- name: install node_exporter on all the instances
+  hosts: all
+  roles:
+    - role: ansible-prometheus-exporter
+      prometheus_exporter_name: node_exporter
+      prometheus_exporter_config_flags:
+        '--web.listen-address': '0.0.0.0:9100'
+        '--log.level': 'info'
+```
+
+
 ## Deploy [haproxy_exporter](https://github.com/prometheus/haproxy_exporter)
 
 
