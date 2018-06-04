@@ -11,10 +11,10 @@ prometheus_exporter_nead_sysconfig: false
 prometheus_exporter_enabled_collectors:
 prometheus_exporter_disable_collectors:
 # variable deprecate wit last version
-#prometheus_enable_exporter_config_flags: false
+# prometheus_enable_exporter_config_flags: false
 # for enable prometheus_exporter_config_flags set prometheus_enable_exporter_config_flags to true
 # diable by default, maintain as example
-#prometheus_exporter_config_flags:
+# prometheus_exporter_config_flags:
 #  '--web.listen-address': '0.0.0.0:9100'
 #  '--log.level': 'info'
 # let it void if not used
@@ -29,3 +29,4 @@ prometheus_exporters_common_root_dir: "{{ prometheus_install_path }}/exporter"
 prometheus_exporters_common_user: prometheus
 prometheus_exporters_common_group: prometheus
 prometheus_config_path: /etc/prometheus
+prometheus_expoter_custom_conf_destination: "{{ prometheus_exporters_common_root_dir }}/{{prometheus_exporter_name}}_current"

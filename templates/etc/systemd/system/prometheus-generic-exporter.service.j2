@@ -8,7 +8,7 @@ Type=simple
 User={{ prometheus_exporters_common_user }}
 Group={{ prometheus_exporters_common_group }}
 
-{% if prometheus_exporter_config_flags %}
+{% if prometheus_exporter_config_flags is defined %}
 ExecStart={{ prometheus_exporters_common_root_dir }}/{{prometheus_exporter_name}}_current/{{prometheus_exporter_name}} $COLLECTOR_ENABLE $COLLECTOR_DISABLE {% for flag, flag_value in prometheus_exporter_config_flags.items() %}{{ flag }}={{ flag_value }} {% endfor %}
 {% else %}
 ExecStart={{ prometheus_exporters_common_root_dir }}/{{prometheus_exporter_name}}_current/{{prometheus_exporter_name}}

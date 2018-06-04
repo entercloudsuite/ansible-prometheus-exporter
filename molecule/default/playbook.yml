@@ -20,6 +20,10 @@
     - role: ansible-prometheus-exporter
       prometheus_exporter_name: blackbox_exporter
       prometheus_exporter_version: 0.12.0
+      # path to same playbookpath/{{prometheus_expoter_conf_main}} custom path
+      prometheus_expoter_conf_main: black_box_expoter_example_config.yaml
+      prometheus_exporter_config_flags:
+        "--config.file": "{{ prometheus_exporters_common_root_dir }}/{{prometheus_exporter_name}}_current/black_box_expoter_example_config.yaml"
 
 - name: install mysqld_exporter on mysqld_exporter group
   hosts: mysql_exporter

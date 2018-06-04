@@ -108,6 +108,21 @@
   notify:
     - restart {{prometheus_exporter_name}}
 
+- name: set up prometheus_exporter_name_configurationfile variable
+  set_fact: prometheus_exporter_name_configurationfile="{{ prometheus_expoter_conf_main.split('/')[-1] }}"
+  when: prometheus_expoter_conf_main is defined
+
+- debug:
+    msg: "var: {{ prometheus_exporter_name_configurationfile }}"
+  when: prometheus_expoter_conf_main is defined
+
+- name: copy "{{prometheus_exporter_name}}" config file from playbook's
+  template:
+    src: "{{ playbook_dir }}/{{ prometheus_expoter_conf_main }}"
+    dest: "{{ prometheus_expoter_custom_conf_destination }}/{{prometheus_exporter_name_configurationfile}}"
+  when: prometheus_expoter_conf_main is defined
+  notify:
+    - restart {{prometheus_exporter_name}}
 
 - name: create "{{ prometheus_exporter_name }}" sysconfig
   template:
