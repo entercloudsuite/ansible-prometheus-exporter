@@ -172,17 +172,16 @@ prometheus_expoter_conf_main: black_box_expoter_example_config.yaml
 
 ```
 
-## postgres configuration (WIP)
-
-```
-    - name: install postgres_exporter on postgres_exporter group
-      hosts: postgres_exporter
-      roles:
-        - role: entercloudsuite.prometheus-exporter
-          prometheus_exporter_name: postgres_exporter
-          url: https://github.com/wrouesnel/postgres_exporter/releases/download/v0.4.6/postgres_exporter_v0.4.6_linux-amd64.tar.gz
-          prometheus_environment_variables:
-            DATA_SOURCE_NAME="postgresql://postgres:password@localhost:5432/?sslmode=disable"
+## Deploy [postgres_exporter](https://github.com/wrouesnel/postgres_exporter/)
+```yaml
+- name: install postgres_exporter on postgres_exporter group
+  hosts: postgres_exporter
+  roles:
+    - role: ansible-prometheus-exporter
+      prometheus_exporter_name: postgres_exporter
+      url: https://github.com/wrouesnel/postgres_exporter/releases/download/v0.4.6/postgres_exporter_v0.4.6_linux-amd64.tar.gz
+      prometheus_environment_variables:
+        'DATA_SOURCE_NAME': 'postgresql://login:password@hostname:port/dbname'
 ```
 
 ## License
