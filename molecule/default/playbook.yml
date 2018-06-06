@@ -20,6 +20,10 @@
     - role: ansible-prometheus-exporter
       prometheus_exporter_name: blackbox_exporter
       prometheus_exporter_version: 0.12.0
+      # path to same playbookpath/{{prometheus_expoter_conf_main}} custom path
+      prometheus_expoter_conf_main: black_box_expoter_example_config.yaml
+      prometheus_exporter_config_flags:
+        "--config.file": "{{ prometheus_exporters_common_root_dir }}/{{prometheus_exporter_name}}_current/black_box_expoter_example_config.yaml"
 
 - name: install mysqld_exporter on mysqld_exporter group
   hosts: mysql_exporter
@@ -36,3 +40,5 @@
     - role: ansible-prometheus-exporter
       prometheus_exporter_name: postgres_exporter
       url: https://github.com/wrouesnel/postgres_exporter/releases/download/v0.4.6/postgres_exporter_v0.4.6_linux-amd64.tar.gz
+      prometheus_environment_variables:
+        'DATA_SOURCE_NAME': 'postgresql://login:password@hostname:port/dbname'

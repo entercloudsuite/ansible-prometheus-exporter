@@ -43,12 +43,37 @@ To run all the steps with just one command, run `molecule test`.
 In order to run the role targeting a VM, use the playbook_deploy.yml file for example with the following command: `ansible-playbook ansible-prometheus-exporter/molecule/default/playbook_deploy.yml -i VM_IP_OR_FQDN, -u ubuntu --private-key private.pem`.
 
 # More example
+## Deploy [node_exporter](https://github.com/prometheus/node_exporter)
+
+### Playbook
+
+simple
+```yaml
+- name: install node_exporter on all the instances
+  hosts: all
+  roles:
+    - role: ansible-prometheus-exporter
+      prometheus_exporter_name: node_exporter
+```
+more options
+```yaml
+- name: install node_exporter on all the instances
+  hosts: all
+  roles:
+    - role: ansible-prometheus-exporter
+      prometheus_exporter_name: node_exporter
+      prometheus_exporter_config_flags:
+        '--web.listen-address': '0.0.0.0:9100'
+        '--log.level': 'info'
+```
+
+
 ## Deploy [haproxy_exporter](https://github.com/prometheus/haproxy_exporter)
 
 
 ### Playbook
 
-```
+```yaml
     - role: entercloudsuite.prometheus-exporter
       prometheus_exporter_version: 0.9.0
       prometheus_exporter_name: "haproxy_exporter"
@@ -67,7 +92,7 @@ stats socket /run/haproxy/admin.sock mode 666 level admin
 
 ### Playbook
 
-```
+```yaml
   hosts: mysql_exporter
   roles:
     - role: entercloudsuite.prometheus-exporter
@@ -89,7 +114,7 @@ GRANT PROCESS, REPLICATION CLIENT, SELECT ON *.* TO 'exporter'@'localhost';
 
 ##### ansible task example mysql_user module
 
-```
+```yaml
 
   - name: Create user for monitoring
     mysql_user:
@@ -101,17 +126,62 @@ GRANT PROCESS, REPLICATION CLIENT, SELECT ON *.* TO 'exporter'@'localhost';
 
 ```
 
-### postgres configuration (WIP)
+
+## Deploy [blackbox_exporter](https://github.com/prometheus/blackbox_exporter)
+config file https://github.com/prometheus/blackbox_exporter/blob/master/blackbox.yml
+
+Set **prometheus_expoter_custom_conf_destination** variable for deploy configuration file in a specific location  
+```yaml
+default-value: "{{ prometheus_exporters_common_root_dir }}/{{prometheus_exporter_name}}_current"
+```
+
+**prometheus_expoter_conf_main** config file location in playbook dir:  
+### example:  
+------------------------
+```yaml
+prometheus_expoter_conf_main: black_box_expoter_example_config.yaml
+```
+file location:
+```BASH
+$PLAYBOOKPATH/black_box_expoter_example_config.yaml
+```
+------------------------
+```yaml
+prometheus_expoter_conf_main: prometheus_cof/black_boxexpoter/black_box_expoter_example_config.yaml
+```
+file location:
+```BASH
+$PLAYBOOKPATH/prometheus_cof/black_boxexpoter/black_box_expoter_example_config.yaml
+```
+
+```yaml
+prometheus_expoter_conf_main: black_box_expoter_example_config.yaml
+```
+### Playbook  
+```yaml
+- name: install blackbox_exporter on group
+  hosts: blackbox_exporter
+  roles:
+    - role: ansible-prometheus-exporter
+      prometheus_exporter_name: blackbox_exporter
+      prometheus_exporter_version: 0.12.0
+      # path to playbookpath/{{prometheus_expoter_conf_main}} custom path
+      prometheus_expoter_conf_main: black_box_expoter_example_config.yaml
+      prometheus_exporter_config_flags:
+        "--config.file": "{{ prometheus_expoter_custom_conf_destination }}/black_box_expoter_example_config.yaml"
 
 ```
-    - name: install postgres_exporter on postgres_exporter group
-      hosts: postgres_exporter
-      roles:
-        - role: entercloudsuite.prometheus-exporter
-          prometheus_exporter_name: postgres_exporter
-          url: https://github.com/wrouesnel/postgres_exporter/releases/download/v0.4.6/postgres_exporter_v0.4.6_linux-amd64.tar.gz
-          prometheus_environment_variables:
-            DATA_SOURCE_NAME="postgresql://postgres:password@localhost:5432/?sslmode=disable"
+
+## Deploy [postgres_exporter](https://github.com/wrouesnel/postgres_exporter/)
+```yaml
+- name: install postgres_exporter on postgres_exporter group
+  hosts: postgres_exporter
+  roles:
+    - role: ansible-prometheus-exporter
+      prometheus_exporter_name: postgres_exporter
+      url: https://github.com/wrouesnel/postgres_exporter/releases/download/v0.4.6/postgres_exporter_v0.4.6_linux-amd64.tar.gz
+      prometheus_environment_variables:
+        'DATA_SOURCE_NAME': 'postgresql://login:password@hostname:port/dbname'
 ```
 
 ## License
