@@ -78,7 +78,7 @@
 - name: download prometheus {{prometheus_exporter_name}} exporter binary
   get_url:
     url: "{{ url }}"
-    dest: "{{ exporter_compressed_binary_path }}/"
+    dest: "{{ exporter_compressed_binary_path }}"
     validate_certs: False
   register: exporter_compressed_download
 

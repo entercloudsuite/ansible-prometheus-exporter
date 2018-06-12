@@ -181,7 +181,7 @@ prometheus_expoter_conf_main: black_box_expoter_example_config.yaml
       prometheus_exporter_name: postgres_exporter
       url: https://github.com/wrouesnel/postgres_exporter/releases/download/v0.4.6/postgres_exporter_v0.4.6_linux-amd64.tar.gz
       prometheus_environment_variables:
-        'DATA_SOURCE_NAME': 'postgresql://login:password@hostname:port/dbname'
+        'DATA_SOURCE_NAME': 'postgresql://user:password@localhost:5432/?sslmode=disable'
 ```
 
 ## License
