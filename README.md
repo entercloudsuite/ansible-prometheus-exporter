@@ -79,7 +79,7 @@ more options
       prometheus_exporter_name: "haproxy_exporter"
       prometheus_enable_exporter_config_flags: true
       prometheus_exporter_config_flags:
-       'haproxy.scrape-uri': 'unix:/run/haproxy/admin.sock'
+       '--haproxy.scrape-uri': 'unix:/run/haproxy/admin.sock'
 ```
 
 ### HAproxy configuration 
