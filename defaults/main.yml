@@ -1,5 +1,7 @@
 ---
 prometheus_exporter_version: 0.15.1
+# specify arch, linux-amd64, darwin-amd64, linux-armv7, etc.
+prometheus_exporter_arch: linux-amd64
 # prometheus_exporter_name: "node_exporter"
 prometheus_website_name: github.com
 prometheus_github_username: prometheus
