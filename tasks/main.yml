@@ -1,6 +1,9 @@
 ---
 - name: create Prometheus group
-  group: name={{ prometheus_exporters_common_group }}  state=present
+  group:
+    name: "{{ prometheus_exporters_common_group }}"
+    state: present
+    system: yes
 
 - name: create Prometheus user
   user:
@@ -10,6 +13,7 @@
     shell: /sbin/nologin
     comment: "Prometheus User"
     state: present
+    system: yes
 
 - name: mkdir for general cases
   file:
@@ -56,18 +60,6 @@
     path: "{{ exporter_path }}"
     state: directory
     mode: 0755
-
-- name: create Prometheus group
-  group: name={{ prometheus_exporters_common_group }}  state=present
-
-- name: create Prometheus Workign user and group
-  user:
-    name: "{{ prometheus_exporters_common_user }}"
-    group: "{{ prometheus_exporters_common_group }}"
-    createhome: no
-    shell: /sbin/nologin
-    comment: "Prometheus User"
-    state: present
 
 - name: create gz directory "{{ generic_exporter_binary_path }}"
   file:
