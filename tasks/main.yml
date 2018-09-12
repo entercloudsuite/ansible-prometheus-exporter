@@ -75,7 +75,7 @@
   register: exporter_compressed_download
 
 - name: set up prometheus_exporter_dir_name variable
-  set_fact: prometheus_exporter_dir_name="{{ exporter_compressed_download.dest.split('/')[-1].replace('.tar.gz','') }}"
+  set_fact: prometheus_exporter_dir_name="{{ url.split('/')[-1].replace('.tar.gz','') }}"
 
 - name: unarchive binary tarball
   unarchive:
