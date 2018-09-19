@@ -121,8 +121,8 @@
     src: etc/sysconfig/default_template.j2
     dest: /etc/sysconfig/{{ prometheus_exporter_name }}
     owner: root
-    group: root
-    mode: 0644
+    group: "{{ prometheus_exporters_common_group }}"
+    mode: 0640
   notify:
     - restart {{prometheus_exporter_name}}
 
