@@ -1,15 +1,3 @@
-{% if prometheus_exporter_enabled_collectors is defined and prometheus_exporter_enabled_collectors %}
-ENABLE="{% for item in prometheus_exporter_enabled_collectors -%}  --collector.{{item+" "}} {%- endfor %}"
-{% else %}
-ENABLE=" "
-{% endif %}
-
-{% if prometheus_exporter_disable_collectors is defined and prometheus_exporter_disable_collectors %}
-DISABLE="{% for item in prometheus_exporter_disable_collectors -%}  --no-collector.{{item+" "}} {%- endfor %}"
-{% else %}
-DISABLE="  "
-{% endif %}
-
 {% if prometheus_environment_variables %}
 {% for env_name, env_value in prometheus_environment_variables.items() %}{{ env_name }}={{ env_value }} {% endfor %}
 {% endif %}
