@@ -130,32 +130,32 @@ GRANT PROCESS, REPLICATION CLIENT, SELECT ON *.* TO 'exporter'@'localhost';
 ## Deploy [blackbox_exporter](https://github.com/prometheus/blackbox_exporter)
 config file https://github.com/prometheus/blackbox_exporter/blob/master/blackbox.yml
 
-Set **prometheus_expoter_custom_conf_destination** variable for deploy configuration file in a specific location  
+Set **prometheus_exporter_custom_conf_destination** variable for deploy configuration file in a specific location  
 ```yaml
 default-value: "{{ prometheus_exporters_common_root_dir }}/{{prometheus_exporter_name}}_current"
 ```
 
-**prometheus_expoter_conf_main** config file location in playbook dir:  
+**prometheus_exporter_conf_main** config file location in playbook dir:  
 ### example:  
 ------------------------
 ```yaml
-prometheus_expoter_conf_main: black_box_expoter_example_config.yaml
+prometheus_exporter_conf_main: black_box_exporter_example_config.yaml
 ```
 file location:
 ```BASH
-$PLAYBOOKPATH/black_box_expoter_example_config.yaml
+$PLAYBOOKPATH/black_box_exporter_example_config.yaml
 ```
 ------------------------
 ```yaml
-prometheus_expoter_conf_main: prometheus_cof/black_boxexpoter/black_box_expoter_example_config.yaml
+prometheus_exporter_conf_main: prometheus_cof/black_boxexporter/black_box_exporter_example_config.yaml
 ```
 file location:
 ```BASH
-$PLAYBOOKPATH/prometheus_cof/black_boxexpoter/black_box_expoter_example_config.yaml
+$PLAYBOOKPATH/prometheus_cof/black_boxexporter/black_box_exporter_example_config.yaml
 ```
 
 ```yaml
-prometheus_expoter_conf_main: black_box_expoter_example_config.yaml
+prometheus_exporter_conf_main: black_box_exporter_example_config.yaml
 ```
 ### Playbook  
 ```yaml
@@ -165,10 +165,10 @@ prometheus_expoter_conf_main: black_box_expoter_example_config.yaml
     - role: ansible-prometheus-exporter
       prometheus_exporter_name: blackbox_exporter
       prometheus_exporter_version: 0.12.0
-      # path to playbookpath/{{prometheus_expoter_conf_main}} custom path
-      prometheus_expoter_conf_main: black_box_expoter_example_config.yaml
+      # path to playbookpath/{{prometheus_exporter_conf_main}} custom path
+      prometheus_exporter_conf_main: black_box_exporter_example_config.yaml
       prometheus_exporter_config_flags:
-        "--config.file": "{{ prometheus_expoter_custom_conf_destination }}/black_box_expoter_example_config.yaml"
+        "--config.file": "{{ prometheus_exporter_custom_conf_destination }}/black_box_exporter_example_config.yaml"
 
 ```
 

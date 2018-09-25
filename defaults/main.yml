@@ -19,9 +19,9 @@ prometheus_install_path: "/opt/prometheus"
 generic_exporter_compressed_binary_path: "{{prometheus_install_path}}/exporter_gz"
 exporter_compressed_binary_path: "{{generic_exporter_compressed_binary_path}}/{{prometheus_exporter_name}}"
 generic_exporter_binary_path: "{{prometheus_install_path}}/exporter"
-exporter_path: "{{generic_exporter_binary_path}}/{{prometheus_exporter_name}}"
+exporter_binary_path: "{{generic_exporter_binary_path}}/{{prometheus_exporter_name}}"
 prometheus_exporters_common_root_dir: "{{ prometheus_install_path }}/exporter"
 prometheus_exporters_common_user: prometheus
 prometheus_exporters_common_group: prometheus
 prometheus_config_path: /etc/prometheus
-prometheus_expoter_custom_conf_destination: "{{ prometheus_exporters_common_root_dir }}/{{prometheus_exporter_name}}_current"
+prometheus_exporter_custom_conf_destination: "{{ prometheus_exporters_common_root_dir }}/{{prometheus_exporter_name}}_current"
