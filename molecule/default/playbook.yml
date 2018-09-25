@@ -4,6 +4,7 @@
   roles:
     - role: ansible-prometheus-exporter
       prometheus_exporter_name: node_exporter
+      prometheus_exporter_version: 0.16.0
 
 - name: install haproxy_exporter on haproxy
   hosts: haproxy_exporter
@@ -12,7 +13,7 @@
       prometheus_exporter_name: haproxy_exporter
       prometheus_exporter_version: 0.9.0
       prometheus_exporter_config_flags:
-        'haproxy.scrape-uri': 'http://admin:admin@instance-haproxy/haproxy?stats;csv'
+        '--haproxy.scrape-uri': 'unix:/run/haproxy/admin.sock'
 
 - name: install blackbox_exporter on blackbox_exporter group
   hosts: blackbox_exporter
