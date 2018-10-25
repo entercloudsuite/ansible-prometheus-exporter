@@ -77,6 +77,14 @@
     src: "{{ exporter_compressed_binary_path }}/{{ prometheus_exporter_dir_name }}.tar.gz"
     dest: "{{ exporter_binary_path }}"
     creates: "{{ exporter_binary_path }}/{{ prometheus_exporter_dir_name }}"
+  when: prometheus_exporter_is_archived == True
+
+- name: unarchive binary tarball
+  copy:
+    src: "{{ exporter_compressed_binary_path }}/{{ prometheus_exporter_dir_name }}"
+    dest: "{{ exporter_binary_path }}"
+    remote_src: yes
+  when: prometheus_exporter_is_archived == False
 
 - name: update group and owner for files
   file:

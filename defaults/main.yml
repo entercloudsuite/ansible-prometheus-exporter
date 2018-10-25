@@ -25,3 +25,4 @@ prometheus_exporters_common_user: prometheus
 prometheus_exporters_common_group: prometheus
 prometheus_config_path: /etc/prometheus
 prometheus_exporter_custom_conf_destination: "{{ prometheus_exporters_common_root_dir }}/{{prometheus_exporter_name}}_current"
+prometheus_exporter_is_archived: True
