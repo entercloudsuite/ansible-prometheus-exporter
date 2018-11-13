@@ -183,6 +183,19 @@ prometheus_exporter_conf_main: black_box_exporter_example_config.yaml
       prometheus_environment_variables:
         'DATA_SOURCE_NAME': 'postgresql://user:password@localhost:5432/?sslmode=disable'
 ```
+## Deploy [uwsgi_exporter](https://github.com/AndreaGreco/prometeus_uwsgi_exporter)
+```
+- name: install uwsgi_exporter on uwsgi instance the instances
+  hosts: uwsgi
+  roles:
+    - role: ansible-prometheus-exporter
+      prometheus_exporter_name: uWSGI_expoter
+      url: https://github.com/AndreaGreco/prometeus_uwsgi_exporter/files/1734745/uWSGI_expoter-v1.1.linux-amd64.tar.gz
+      prometheus_exporter_conf_main: prometheus/config_uwsgi_expoter.yaml
+      prometheus_exporter_config_flags:
+        "-c": "{{ prometheus_exporters_common_root_dir }}/{{prometheus_exporter_name}}_current/config_uwsgi_expoter.yaml"
+        "-n": ""
+```
 
 ## License
 
