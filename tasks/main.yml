@@ -1,34 +1,17 @@
 ---
-- name: Register Prometheus GID
-  command: id -g {{ prometheus_exporters_common_group }}
-  register: command_output
-  ignore_errors: True
-- debug:
-    msg: "{{command_output}}"
-
 - name: create Prometheus group if not exist
   group:
     name: "{{ prometheus_exporters_common_group }}"
     state: present
     system: yes
-  when: "'no such user' in command_output.stderr"
-
-- name: Register Prometheus UID
-  command: id -u {{ prometheus_exporters_common_user }}
-  register: command_output
-  ignore_errors: True
-- debug:
-    msg: "{{command_output}}"
 
 - name: create Prometheus user if not exist
   user:
     name: "{{ prometheus_exporters_common_user }}"
     group: "{{ prometheus_exporters_common_group }}"
     createhome: no
-    comment: "Prometheus User"
     state: present
     system: yes
-  when: "'no such user' in command_output.stderr"
 
 - name: mkdir for general cases
   file:

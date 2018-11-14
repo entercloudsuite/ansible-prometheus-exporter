@@ -5,6 +5,8 @@
     - role: ansible-prometheus-exporter
       prometheus_exporter_name: node_exporter
       prometheus_exporter_version: 0.16.0
+      prometheus_exporters_common_user: root
+      prometheus_exporters_common_group: root
 
 - name: install haproxy_exporter on haproxy
   hosts: haproxy_exporter
