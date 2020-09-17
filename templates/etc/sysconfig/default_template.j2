@@ -1,3 +1,4 @@
 {% if prometheus_environment_variables %}
-{% for env_name, env_value in prometheus_environment_variables.items() %}{{ env_name }}={{ env_value }} {% endfor %}
+{% for env_name, env_value in prometheus_environment_variables.items() %}{{ env_name }}={{ env_value }}
+{% endfor %}
 {% endif %}
