@@ -59,15 +59,20 @@
     state: directory
     mode: 0755
 
+# Extract the directory name where the exporter executable will be
+# stored. This also corresponds to the archive file to download
+# without the .tar.gz extension. Note that we are using the URL rather
+# than the exporter name (`prometheus_exporter_release_name`) to allow
+# users to directly specify the exporter URL.
+- name: set up prometheus_exporter_dir_name variable
+  set_fact: prometheus_exporter_dir_name="{{ url.split('/')[-1].replace('.tar.gz','') }}"
+
 - name: download prometheus "{{ prometheus_exporter_name }}" exporter binary
   get_url:
     url: "{{ url }}"
-    dest: "{{ exporter_compressed_binary_path }}"
+    dest: "{{ exporter_compressed_binary_path }}/{{ prometheus_exporter_dir_name }}.tar.gz"
     validate_certs: False
   register: exporter_compressed_download
-
-- name: set up prometheus_exporter_dir_name variable
-  set_fact: prometheus_exporter_dir_name="{{ exporter_compressed_download.dest.split('/')[-1].replace('.tar.gz','') }}"
 
 - name: unarchive binary tarball
   unarchive:
